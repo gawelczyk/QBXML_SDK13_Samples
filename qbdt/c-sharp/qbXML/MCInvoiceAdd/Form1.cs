@@ -49,8 +49,8 @@ namespace MCInvoiceAdd {
         private string companyFile="";
         private QBFileMode mode=QBFileMode.qbFileOpenDoNotCare;
         
-        private static string appID = "IDN123";
-        private static string appName = "MCInvoiceAdd";
+        private static string appID = "ATGIDN123";
+        private static string appName = "ATG-MCInvoiceAdd";
 
         private bool multiCurrencyOn(){
             bool ret = false;
