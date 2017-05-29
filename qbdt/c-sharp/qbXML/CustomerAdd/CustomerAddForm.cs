@@ -215,8 +215,8 @@ namespace CustomerAdd
 			try 
 			{
 				rp = new RequestProcessor2 ();
-				rp.OpenConnection("", "IDN CustomerAdd C# sample" );
-				ticket = rp.BeginSession("", QBFileMode.qbFileOpenDoNotCare );
+                rp.OpenConnection("", Configuration.AppName);
+                ticket = rp.BeginSession("", QBFileMode.qbFileOpenDoNotCare );
 				response = rp.ProcessRequest(ticket, input);
 					
 			}
