@@ -64,7 +64,7 @@ namespace MCInvoiceAddQBFC.Session_Framework
         /// <summary>
         /// The application name used when opening a connection with QuickBooks
         /// </summary>
-        public const string APPNAME = "MCInvoiceAddQBFC";
+        public const string APPNAME = "ATG-MCInvoiceAddQBFC";
 
         /// <summary>
         /// The Application ID, obtained from Intuit for you specific application, used
@@ -81,7 +81,7 @@ namespace MCInvoiceAddQBFC.Session_Framework
         /// <summary>
         /// the Registration Key for your application within the Microsoft Registry
         /// </summary>
-        public const string REG_KEY = "Software\\IDN\\MCInvoiceAddQBFC";
+        public const string REG_KEY = "Software\\IDN\\AtgMCInvoiceAddQBFC";
 
 
         #endregion
