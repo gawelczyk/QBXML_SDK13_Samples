@@ -46,6 +46,9 @@ namespace CustomerAdd
         private Button btnOpenFile;
         private TextBox txtQbFile;
         private Label label4;
+        private GroupBox groupBox2;
+        private RadioButton rbtEuro;
+        private RadioButton rbtDefaultCurrency;
 
         /// <summary>
         /// Required designer variable.
@@ -95,10 +98,14 @@ namespace CustomerAdd
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnOpenFile = new System.Windows.Forms.Button();
             this.txtQbFile = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbtDefaultCurrency = new System.Windows.Forms.RadioButton();
+            this.rbtEuro = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -177,6 +184,17 @@ namespace CustomerAdd
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Offline action";
             // 
+            // btnOpenFile
+            // 
+            this.btnOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenFile.Location = new System.Drawing.Point(266, 18);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(85, 18);
+            this.btnOpenFile.TabIndex = 13;
+            this.btnOpenFile.Text = "Select QB file";
+            this.btnOpenFile.UseVisualStyleBackColor = true;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            // 
             // txtQbFile
             // 
             this.txtQbFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -194,21 +212,47 @@ namespace CustomerAdd
             this.label4.TabIndex = 11;
             this.label4.Text = "QB file";
             // 
-            // btnOpenFile
+            // groupBox2
             // 
-            this.btnOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenFile.Location = new System.Drawing.Point(266, 18);
-            this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(85, 18);
-            this.btnOpenFile.TabIndex = 13;
-            this.btnOpenFile.Text = "Select QB file";
-            this.btnOpenFile.UseVisualStyleBackColor = true;
-            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.rbtEuro);
+            this.groupBox2.Controls.Add(this.rbtDefaultCurrency);
+            this.groupBox2.Location = new System.Drawing.Point(19, 208);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(389, 38);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Currency";
+            // 
+            // rbtDefaultCurrency
+            // 
+            this.rbtDefaultCurrency.AutoSize = true;
+            this.rbtDefaultCurrency.Checked = true;
+            this.rbtDefaultCurrency.Location = new System.Drawing.Point(25, 15);
+            this.rbtDefaultCurrency.Name = "rbtDefaultCurrency";
+            this.rbtDefaultCurrency.Size = new System.Drawing.Size(57, 17);
+            this.rbtDefaultCurrency.TabIndex = 0;
+            this.rbtDefaultCurrency.TabStop = true;
+            this.rbtDefaultCurrency.Text = "default";
+            this.rbtDefaultCurrency.UseVisualStyleBackColor = true;
+            // 
+            // rbtEuro
+            // 
+            this.rbtEuro.AutoSize = true;
+            this.rbtEuro.Location = new System.Drawing.Point(117, 15);
+            this.rbtEuro.Name = "rbtEuro";
+            this.rbtEuro.Size = new System.Drawing.Size(47, 17);
+            this.rbtEuro.TabIndex = 1;
+            this.rbtEuro.TabStop = true;
+            this.rbtEuro.Text = "Euro";
+            this.rbtEuro.UseVisualStyleBackColor = true;
             // 
             // CustomerAddForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(448, 268);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Exit);
@@ -222,6 +266,8 @@ namespace CustomerAdd
             this.Text = "CustomerAdd";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,7 +299,7 @@ namespace CustomerAdd
             //step2: create the qbXML request
             XmlDocument inputXMLDoc = new XmlDocument();
             inputXMLDoc.AppendChild(inputXMLDoc.CreateXmlDeclaration("1.0", null, null));
-            inputXMLDoc.AppendChild(inputXMLDoc.CreateProcessingInstruction("qbxml", "version=\"2.0\""));
+            inputXMLDoc.AppendChild(inputXMLDoc.CreateProcessingInstruction("qbxml", "version=\"13.0\""));
             XmlElement qbXML = inputXMLDoc.CreateElement("QBXML");
             inputXMLDoc.AppendChild(qbXML);
             XmlElement qbXMLMsgsRq = inputXMLDoc.CreateElement("QBXMLMsgsRq");
@@ -269,6 +315,32 @@ namespace CustomerAdd
             {
                 custAdd.AppendChild(inputXMLDoc.CreateElement("Phone")).InnerText = Phone.Text;
             }
+
+            if (rbtEuro.Checked)
+            {
+                var currency = inputXMLDoc.CreateNode(XmlNodeType.Element, "FullName", "");
+                currency.InnerText = "EURO";
+                var currencyId = inputXMLDoc.CreateNode(XmlNodeType.Element, "ListID", "");
+                currencyId.InnerText = "8000002A-1217255359";
+
+                var currencyRef = inputXMLDoc.CreateElement("CurrencyRef");
+                //currencyRef.AppendChild(currency);
+                currencyRef.AppendChild(currencyId);
+                custAdd.AppendChild(currencyRef);
+            }
+
+            //< CurrencyRef >
+            //< ListID > 8000002A-1217255359 </ ListID >
+            //   < FullName > Euro </ FullName 
+            //</ CurrencyRef >
+
+            //-< CurrencyRef >
+            //< !--opt, not in QBOE, v8.0-- >
+            //< ListID > IDTYPE </ ListID >
+            //< !--opt-- >
+            //< FullName > STRTYPE </ FullName >
+            //< !--opt, max length = 64 for QBD | QBCA | QBUK | QBAU-- >
+            //</ CurrencyRef >
 
             string input = inputXMLDoc.OuterXml;
             //step3: do the qbXMLRP request
